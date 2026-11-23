@@ -59,10 +59,17 @@ namespace QuietNoize.SaveKit.Internal.Serialization
                 memberSnapshots.Add(member.ToSnapshot(value));
             }
 
+            bool isEnabled = true;
+
+            if (m_component is Behaviour behaviour)
+            {
+                isEnabled = behaviour.enabled;
+            }
+
             return new ComponentSnapshot(
                 m_component.GetType().AssemblyQualifiedName,
                 m_localNumber,
-                ((Behaviour)m_component).enabled,
+                isEnabled,
                 memberSnapshots.ToArray()
             );
         }
@@ -90,6 +97,11 @@ namespace QuietNoize.SaveKit.Internal.Serialization
                     continue;
 
                 member.ApplySnapshot(m_component, memberSnapshots);
+            }
+
+            if (m_component is Behaviour behaviour)
+            {
+                behaviour.enabled = snapshot.IsEnabled;
             }
         }
 

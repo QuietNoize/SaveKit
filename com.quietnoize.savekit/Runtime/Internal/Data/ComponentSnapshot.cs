@@ -17,6 +17,8 @@ namespace QuietNoize.SaveKit.Internal.Data
 
         internal uint LocalNumber => m_localNumber;
 
+        internal bool IsEnabled => m_isEnabled;
+
         internal MemberSnapshotBase[] Members => m_members;
 
         internal ComponentSnapshot(

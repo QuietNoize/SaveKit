@@ -8,9 +8,12 @@ namespace QuietNoize.SaveKit
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using UnityEngine;
+
+#if UNITY_EDITOR
     using UnityEditor;
     using UnityEditor.SceneManagement;
-    using UnityEngine;
+#endif
 
     /// <summary>
     /// Manages the serialization and restoration of a GameObject's state.

@@ -458,6 +458,7 @@ namespace QuietNoize.SaveKit
                 .ToArray();
 
             var handlersToDestroyed = new List<GameObjectSaveHandler>();
+            var tombstonesToDestroyed = new List<TombstoneSaveHandler>();
             var objectSnaphsotsToCreateTombstones = new List<GameObjectSnapshot>();
 
             int processedSnapshots = 0;
@@ -466,6 +467,32 @@ namespace QuietNoize.SaveKit
             reportProgress(0f);
 
             var processedHandlers = new HashSet<GameObjectSaveHandler>();
+
+            foreach (var snapshot in sortedGameObjectSnapshots)
+            {
+                if (snapshot.IsDestroyed)
+                    continue;
+
+                var sameIdTombstone = (TombstoneSaveHandler)null;
+
+                if (IdentifierBase.TryGetIdentifierById<IdentifierBase>(
+                        snapshot.Id,
+                        out var targetIdentifier))
+                {
+                    sameIdTombstone = targetIdentifier.GetComponent<TombstoneSaveHandler>();
+                }
+
+                if (sameIdTombstone != null)
+                {
+                    targetIdentifier.UnregisterId();
+                    tombstonesToDestroyed.Add(sameIdTombstone);
+                    GameObject.Destroy(sameIdTombstone.gameObject);
+                }
+            }
+
+            yield return new WaitUntil(() =>
+                tombstonesToDestroyed.All(tombstone => tombstone == null)
+            );
 
             foreach (var snapshot in sortedGameObjectSnapshots)
             {
