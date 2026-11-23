@@ -21,7 +21,7 @@ Or add to `Packages/manifest.json`:
 ```json
 {
   "dependencies": {
-    "com.quietnoize.savekit": "https://github.com/QuietNoize/SaveKit.git"
+    "com.quietnoize.savekit": "https://github.com/QuietNoize/SaveKit.git?path=/com.quietnoize.savekit"
   }
 }
 ```
