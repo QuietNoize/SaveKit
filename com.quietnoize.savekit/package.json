@@ -1,0 +1,16 @@
+{
+    "name": "com.quietnoize.savekit",
+    "displayName": "QuietNoize's SaveKit",
+    "version": "0.2.0",
+    "description": "A flexible save system for Unity with scene state serialization and customizable component serializers.",
+    "author": {
+        "name": "QuietNoize",
+        "url": "https://github.com/QuietNoize"
+    },
+    "keywords": [
+        "save-system",
+        "serialization",
+        "save",
+        "scene-management"
+    ]
+}

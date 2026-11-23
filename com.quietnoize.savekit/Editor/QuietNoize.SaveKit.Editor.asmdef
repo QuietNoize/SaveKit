@@ -1,0 +1,10 @@
+{
+    "name": "QuietNoize.SaveKit.Editor",
+    "rootNamespace": "QuietNoize.SaveKit.Editor",
+    "references": [
+        "QuietNoize.SaveKit"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ]
+}
