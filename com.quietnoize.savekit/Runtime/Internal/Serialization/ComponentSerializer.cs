@@ -4,6 +4,7 @@ namespace QuietNoize.SaveKit.Internal.Serialization
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using UnityEngine;
 
     [Serializable]
@@ -59,12 +60,13 @@ namespace QuietNoize.SaveKit.Internal.Serialization
                 memberSnapshots.Add(member.ToSnapshot(value));
             }
 
-            bool isEnabled = true;
-
-            if (m_component is Behaviour behaviour)
+            bool isEnabled = m_component switch
             {
-                isEnabled = behaviour.enabled;
-            }
+                Behaviour b => b.enabled,
+                Renderer r => r.enabled,
+                Collider c => c.enabled,
+                _ => true
+            };
 
             return new ComponentSnapshot(
                 m_component.GetType().AssemblyQualifiedName,
@@ -99,10 +101,13 @@ namespace QuietNoize.SaveKit.Internal.Serialization
                 member.ApplySnapshot(m_component, memberSnapshots);
             }
 
-            if (m_component is Behaviour behaviour)
+            switch (m_component)
             {
-                behaviour.enabled = snapshot.IsEnabled;
+                case Behaviour b: b.enabled = snapshot.IsEnabled; break;
+                case Renderer r: r.enabled = snapshot.IsEnabled; break;
+                case Collider c: c.enabled = snapshot.IsEnabled; break;
             }
+
         }
 
         internal void OverrideComponent(Component component)
